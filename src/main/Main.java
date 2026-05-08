@@ -34,7 +34,7 @@ public class Main {
         MoteurDeMatching moteur = new MoteurDeMatching(config);
 
         long debut = System.currentTimeMillis();
-        List<Object[]> resultats = moteur.executer();
+        List<CoupleScore> resultats = moteur.executer();
         long duree = System.currentTimeMillis() - debut;
 
         System.out.println("\nPaires retenues : " + resultats.size());

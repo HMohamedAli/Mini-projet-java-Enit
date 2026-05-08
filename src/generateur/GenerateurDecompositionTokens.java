@@ -4,11 +4,9 @@ import java.util.*;
 import main.Nom;
 
 public class GenerateurDecompositionTokens extends GenerateurDeCandidats {
-    private final String separateur;
     private final int seuilTokensCommuns;
 
-    public GenerateurDecompositionTokens(String separateur, int seuilTokensCommuns) {
-        this.separateur = separateur;
+    public GenerateurDecompositionTokens(int seuilTokensCommuns) {
         this.seuilTokensCommuns = seuilTokensCommuns;
     }
 
@@ -17,26 +15,23 @@ public class GenerateurDecompositionTokens extends GenerateurDeCandidats {
         List<Nom[]> candidats = new ArrayList<>();
 
         for (Nom source : listeSource) {
-            Set<String> tokensSource = tokeniser(source.getNomPretraite());
-            
+            List<String> tokensSource = source.getNomPretraite();
+
             for (Nom cible : listeCible) {
-                Set<String> tokensCible = tokeniser(cible.getNomPretraite());
-                
-                
+                List<String> tokensCible = cible.getNomPretraite();
+
                 int communs = 0;
                 for (String t : tokensSource) {
-                    if (tokensCible.contains(t)) communs++;
+                    if (tokensCible.contains(t))
+                        communs++;
                 }
 
                 if (communs >= seuilTokensCommuns) {
-                    candidats.add(new Nom[]{source, cible});
+                    candidats.add(new Nom[] { source, cible });
                 }
             }
         }
         return candidats;
     }
 
-    private Set<String> tokeniser(String texte) {
-        return new HashSet<>(Arrays.asList(texte.split(separateur)));
-    }
 }

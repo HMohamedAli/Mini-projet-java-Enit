@@ -3,6 +3,7 @@ package main;
 import comparaison.ComparaisonExacte;
 import comparaison.ComparaisonLevenshtein;
 import comparaison.ComparaisonPartielle;
+import comparaison.ComparaisonTokens;
 import comparaison.ComparateurDeNoms;
 import generateur.GenerateurDeCandidats;
 import generateur.GenerateurDecompositionTokens;
@@ -15,6 +16,7 @@ import pretraitement.PretraiteurNom;
 import pretraitement.RemplacementCaracteresSpeciaux;
 import pretraitement.SupprimerAccents;
 import pretraitement.SuppressionEspaces;
+import pretraitement.TokeniseurParEspace;
 import selectionneur.SelectionneurDeResultat;
 import selectionneur.SelectionneurPremierN;
 import selectionneur.SelectionneurSeuil;
@@ -95,8 +97,9 @@ public class Configuration {
         System.out.println("  2 - Supprimer les accents");
         System.out.println("  3 - Supprimer les espaces");
         System.out.println("  4 - Remplacer les caractères spéciaux");
+        System.out.println("  5 - Tokeniser par espace (découpe en sous-tokens)");
         System.out.println("  0 - Aucun prétraitement");
-        System.out.println("(Entrez plusieurs numéros séparés par des espaces, ex: 1 2)");
+        System.out.println("(Entrez plusieurs numéros séparés par des espaces, ex: 1 2 5)");
         System.out.print("Votre choix : ");
 
         String ligne = sc.nextLine().trim();
@@ -121,6 +124,10 @@ public class Configuration {
             if (choix == 4) {
                 pretraiteurs.add(new RemplacementCaracteresSpeciaux());
                 System.out.println("  ✓ RemplacementCaracteresSpeciaux ajouté");
+            }
+            if (choix == 5) {
+                pretraiteurs.add(new TokeniseurParEspace());
+                System.out.println("  ✓ TokeniseurParEspace ajouté");
             }
         }
     }
@@ -150,18 +157,14 @@ public class Configuration {
             generateur = new GenerateurTailleOriginaleParPourcentage(pct);
             System.out.println("  ✓ GenerateurTailleOriginaleParPourcentage(" + pct + ") sélectionné");
         } else if (choix == 4) {
-            System.out.print("  Séparateur (ex: \\s+) : ");
-            String sep = sc.nextLine().trim();
             System.out.print("  Seuil de tokens communs : ");
             int seuil = lireEntier(sc.nextLine().trim());
-            generateur = new GenerateurDecompositionTokens(sep, seuil);
+            generateur = new GenerateurDecompositionTokens(seuil);
             System.out.println("  ✓ GenerateurDecompositionTokens sélectionné");
         } else if (choix == 5) {
-            System.out.print("  Séparateur : ");
-            String sep = sc.nextLine().trim();
             System.out.print("  Seuil de tokens communs : ");
             int seuil = lireEntier(sc.nextLine().trim());
-            generateur = new GenerateurIndexeurDeTokens(sep, seuil);
+            generateur = new GenerateurIndexeurDeTokens(seuil);
             System.out.println("  ✓ GenerateurIndexeurDeTokens sélectionné");
         } else {
             generateur = new GenerateurProduitCartesien();
@@ -171,9 +174,10 @@ public class Configuration {
 
     private void choixComparateur(Scanner sc) {
         System.out.println("\n[3] ALGORITHME DE COMPARAISON (choisissez-en un) :");
-        System.out.println("  1 - Comparaison exacte");
-        System.out.println("  2 - Distance de Levenshtein");
-        System.out.println("  3 - Comparaison partielle");
+        System.out.println("  1 - Comparaison exacte          [ComparateurDeChaines]");
+        System.out.println("  2 - Distance de Levenshtein     [ComparateurDeChaines]");
+        System.out.println("  3 - Comparaison partielle       [ComparateurDeChaines]");
+        System.out.println("  4 - Comparaison par tokens      [ComparateurDeNoms]");
         System.out.print("Votre choix : ");
 
         int choix = lireEntier(sc.nextLine().trim());
@@ -187,9 +191,12 @@ public class Configuration {
         } else if (choix == 3) {
             comparateur = new ComparaisonPartielle();
             System.out.println("  ✓ ComparaisonPartielle sélectionnée");
+        } else if (choix == 4) {
+            comparateur = new ComparaisonTokens();
+            System.out.println("  ✓ ComparaisonTokens sélectionnée");
         } else {
-            comparateur = new ComparaisonExacte();
-            System.out.println("  Choix invalide, ComparaisonExacte utilisée par défaut");
+            comparateur = new ComparaisonLevenshtein();
+            System.out.println("  Choix invalide, ComparaisonLevenshtein utilisée par défaut");
         }
     }
 
@@ -222,7 +229,7 @@ public class Configuration {
         try {
             valeur = Integer.parseInt(s);
         } catch (NumberFormatException e) {
-            /* ignoré */ }
+        }
         return valeur;
     }
 
@@ -231,7 +238,7 @@ public class Configuration {
         try {
             valeur = Double.parseDouble(s);
         } catch (NumberFormatException e) {
-            /* ignoré */ }
+        }
         return valeur;
     }
 

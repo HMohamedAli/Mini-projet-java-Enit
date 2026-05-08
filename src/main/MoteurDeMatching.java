@@ -1,12 +1,11 @@
 package main;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import comparaison.ComparateurDeNoms;
 import generateur.GenerateurDeCandidats;
 import pretraitement.PretraiteurNom;
 import selectionneur.SelectionneurDeResultat;
+
+import java.util.List;
 
 public class MoteurDeMatching {
 
@@ -16,29 +15,24 @@ public class MoteurDeMatching {
         this.config = config;
     }
 
-    public List<Object[]> executer() {
+    public List<CoupleScore> executer() {
 
         List<Nom> listeSource = config.getListeSource().getNoms();
         List<Nom> listeCible  = config.getListeCible().getNoms();
 
-        
         appliquerPretraitements(listeSource);
         appliquerPretraitements(listeCible);
 
-        
         GenerateurDeCandidats generateur = config.getGenerateur();
         List<Nom[]> candidats = generateur.genererCandidats(listeSource, listeCible);
 
-    
         ComparateurDeNoms comparateur = config.getComparateur();
-        List<Object[]> scores = comparateur.comparerTous(candidats);
+        List<CoupleScore> scores = comparateur.comparerTous(candidats);
 
-      
-        List<Object[]> selectionnes = selectionnerResultats(scores);
+        List<CoupleScore> selectionnes = selectionnerResultats(scores);
 
- 
-        LivreurDeResultat livreur = new LivreurDeResultat();
-        livreur.livrerResultat(selectionnes);
+        
+        new LivreurDeResultat().livrerResultat(selectionnes);
 
         return selectionnes;
     }
@@ -51,8 +45,8 @@ public class MoteurDeMatching {
         }
     }
 
-    private List<Object[]> selectionnerResultats(List<Object[]> scores) {
-        List<Object[]> resultats = scores;
+    private List<CoupleScore> selectionnerResultats(List<CoupleScore> scores) {
+        List<CoupleScore> resultats = scores;
         for (SelectionneurDeResultat s : config.getSelectionneurs()) {
             resultats = s.selectionner(resultats);
         }
