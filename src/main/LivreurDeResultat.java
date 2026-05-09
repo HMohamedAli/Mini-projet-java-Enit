@@ -17,6 +17,6 @@ public class LivreurDeResultat {
                     c.getCible().getNomOriginal(),
                     c.getScore());
         }
-        System.out.printf("%d résultat(s) livré(s).%n", couples.size());
+        System.out.printf("%d resultat(s) livre(s).%n", couples.size());
     }
 }
