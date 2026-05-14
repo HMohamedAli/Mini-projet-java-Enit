@@ -13,8 +13,8 @@ import generateur.GenerateurDecompositionTokens;
 import generateur.GenerateurIndexeurDeTokens;
 import generateur.GenerateurPermutationOptimale;
 import generateur.GenerateurProduitCartesien;
-import generateur.GenerateurTailleOriginaleParN;
-import generateur.GenerateurTailleOriginaleParPourcentage;
+import generateur.GenerateurTailleParN;
+import generateur.GenerateurTailleParPourcentage;
 import pretraitement.EnMajuscules;
 import pretraitement.PretraiteurNom;
 import pretraitement.RemplacementCaracteresSpeciaux;
@@ -139,8 +139,8 @@ public class Configuration {
     private void choixGenerateur(Scanner sc) {
         System.out.println("\n 2-- GENERATEUR DE CANDIDATS disponibles :");
         System.out.println("  1 - Produit cartésien ");
-        System.out.println("  2 - Taille originale proche (par N caractéres)");
-        System.out.println("  3 - Taille originale proche (par pourcentage)");
+        System.out.println("  2 - Taille proche (par N caractéres)");
+        System.out.println("  3 - Taille proche (par pourcentage)");
         System.out.println("  4 - Décomposition par tokens");
         System.out.println("  5 - Indexeur de tokens");
         System.out.println("  6 - Permutation optimale (alignement de tokens)");
@@ -154,13 +154,13 @@ public class Configuration {
         } else if (choix == 2) {
             System.out.print("  Tolérance en nombre de caractéres (N) : ");
             int n = lireEntier(sc.nextLine().trim());
-            generateur = new GenerateurTailleOriginaleParN(n);
-            System.out.println("GenerateurTailleOriginaleParN(" + n + ") sélectionné");
+            generateur = new GenerateurTailleParN(n);
+            System.out.println("GenerateurTailleParN(" + n + ") sélectionné");
         } else if (choix == 3) {
             System.out.print("  Pourcentage de tolérance (100 pour 100%) : ");
             double pct = lireDouble(sc.nextLine().trim());
-            generateur = new GenerateurTailleOriginaleParPourcentage(pct);
-            System.out.println(" GenerateurTailleOriginaleParPourcentage(" + pct + ") sélectionné");
+            generateur = new GenerateurTailleParPourcentage(pct);
+            System.out.println(" GenerateurTailleParPourcentage(" + pct + ") sélectionné");
         } else if (choix == 4) {
             System.out.print("  Seuil de tokens communs : ");
             int seuil = lireEntier(sc.nextLine().trim());

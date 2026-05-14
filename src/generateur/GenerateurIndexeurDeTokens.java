@@ -3,7 +3,7 @@ package generateur;
 import java.util.*;
 import main.Nom;
 
-public class GenerateurIndexeurDeTokens extends GenerateurDeCandidats {
+public class GenerateurIndexeurDeTokens implements GenerateurDeCandidats {
 
     private final int seuilTokensCommuns;
     private final TreeMap<String, List<Nom>> index = new TreeMap<>();

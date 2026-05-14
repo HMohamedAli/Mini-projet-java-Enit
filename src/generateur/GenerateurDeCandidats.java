@@ -3,7 +3,7 @@ package generateur;
 import java.util.List;
 import main.Nom;
 
-public abstract class GenerateurDeCandidats {
+public interface GenerateurDeCandidats {
    
-    public abstract List<Nom[]> genererCandidats(List<Nom> listeSource, List<Nom> listeCible);
+    public  List<Nom[]> genererCandidats(List<Nom> listeSource, List<Nom> listeCible);
 }

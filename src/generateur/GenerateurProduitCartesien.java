@@ -6,7 +6,7 @@ import main.Nom;
 
 
 
-public class GenerateurProduitCartesien extends GenerateurDeCandidats {
+public class GenerateurProduitCartesien implements GenerateurDeCandidats {
 
     @Override
     public List<Nom[]> genererCandidats(List<Nom> listeSource, List<Nom> listeCible) {

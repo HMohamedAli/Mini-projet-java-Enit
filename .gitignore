@@ -2,3 +2,7 @@
 .vscode/
 lib
 bin/
+names_matching_peps
+listecible
+listsource
+out

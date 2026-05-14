@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import main.Nom;
 
-public class GenerateurPermutationOptimale extends GenerateurDeCandidats {
+public class GenerateurPermutationOptimale implements GenerateurDeCandidats {
 
     private static final int PERMUTATION_LIMIT = 7;
     private final double seuil;

@@ -3,7 +3,7 @@ package generateur;
 import java.util.*;
 import main.Nom;
 
-public class GenerateurDecompositionTokens extends GenerateurDeCandidats {
+public class GenerateurDecompositionTokens implements GenerateurDeCandidats {
     private final int seuilTokensCommuns;
 
     public GenerateurDecompositionTokens(int seuilTokensCommuns) {
