@@ -114,6 +114,4 @@ Le projet est conçu pour être facilement étendu :
 - Omar Karoui
 - Mohamed Ali Hachicha
 
-## Licence
 
-Ce projet est fourni sans licence explicite. Ajoutez-en une si nécessaire pour clarifier les droits d'utilisation et de partage.
